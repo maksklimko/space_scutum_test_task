@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
-import 'package:space_scutum_test_task/features/tasks/presentation/cubit/tasks_cubit.dart';
+import 'package:space_scutum_test_task/features/tasks/domain/entities/task_category.dart';
+import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
 import 'package:space_scutum_test_task/features/tasks/presentation/widgets/task_tile.dart';
 
@@ -13,8 +14,17 @@ class TasksListScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      floatingActionButton:
-          FloatingActionButton(onPressed: context.read<TasksCubit>().addTask),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        context.read<TasksBloc>().add(AddTaskEvent(
+              Task(
+                id: DateTime.now().millisecondsSinceEpoch,
+                title: 'title',
+                description: 'description',
+                isCompleted: false,
+                category: TaskCategory.other,
+              ),
+            ));
+      }),
       body: Column(
         children: [
           SizedBox(
@@ -23,17 +33,21 @@ class TasksListScreen extends StatelessWidget {
           ),
           SizedBox(
             height: screenHeight * 0.7, // 70% of screen height
-            child: BlocBuilder<TasksCubit, List<Task>>(
+            child: BlocBuilder<TasksBloc, TasksState>(
               builder: (context, state) {
-                return ListView.separated(
-                  itemCount: state.length,
-                  itemBuilder: (context, index) {
-                    return TaskTile(
-                      task: state[index],
-                    );
-                  },
-                  separatorBuilder: (context, index) => AppSpacers.v10px,
-                );
+                return switch (state) {
+                  TasksInitial() => Center(child: CircularProgressIndicator()),
+                  TasksLoaded(:final tasks) => ListView.separated(
+                      itemCount: tasks.length,
+                      itemBuilder: (context, index) {
+                        return TaskTile(
+                          task: tasks[index],
+                        );
+                      },
+                      separatorBuilder: (context, index) => AppSpacers.v10px,
+                    ),
+                  _ => Center(child: Text("Unexpected state")),
+                };
               },
             ),
           ),

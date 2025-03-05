@@ -16,6 +16,22 @@ class Task {
     required this.category,
   });
 
+  Task copyWith({
+    int? id,
+    String? title,
+    String? description,
+    bool? isCompleted,
+    TaskCategory? category,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      isCompleted: isCompleted ?? this.isCompleted,
+      category: category ?? this.category,
+    );
+  }
+
   TaskDTO toDTO() {
     return TaskDTO(
       id: id,

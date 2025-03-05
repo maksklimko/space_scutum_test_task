@@ -37,13 +37,13 @@ class TasksHiveDataSource {
 
   Future<void> updateTask(TaskDTO task) async {
     final box = await _getBox();
-    if (box.containsKey(task.id)) {
-      await box.put(task.id, task);
+    if (box.containsKey(task.id.toString())) {
+      await box.put(task.id.toString(), task);
     }
   }
 
   Future<void> deleteTask(int id) async {
     final box = await _getBox();
-    await box.delete(id);
+    await box.delete(id.toString());
   }
 }

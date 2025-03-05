@@ -1,4 +1,4 @@
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task_category.dart';
 
 part 'task_category_dto.g.dart';
