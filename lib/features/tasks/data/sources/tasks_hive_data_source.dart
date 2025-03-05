@@ -1,14 +1,28 @@
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:space_scutum_test_task/features/tasks/data/dto/task_category_dto.dart';
 import 'package:space_scutum_test_task/features/tasks/data/dto/task_dto.dart';
 
 class TasksHiveDataSource {
   static const String _boxName = 'TaskBox';
+  var isInitialized = false;
+
+  Future initHive() async {
+    final appDocumentDirectory = await getApplicationDocumentsDirectory();
+    await Hive.initFlutter(appDocumentDirectory.path);
+
+    Hive.registerAdapter(TaskDTOAdapter());
+    Hive.registerAdapter(TaskCategoryDTOAdapter());
+  }
 
   Future<Box<TaskDTO>> _getBox() async {
-    if (Hive.isBoxOpen(_boxName)) {
-      return Hive.box(_boxName);
+    if (!isInitialized) {
+      await initHive();
+      isInitialized = true;
+
+      return Hive.openBox<TaskDTO>(_boxName);
     }
-    return Hive.openBox<TaskDTO>(_boxName);
+    return Hive.box(_boxName);
   }
 
   Future<List<TaskDTO>> getTasks() async {
