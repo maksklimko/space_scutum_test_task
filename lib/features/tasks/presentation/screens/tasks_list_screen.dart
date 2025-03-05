@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
+import 'package:space_scutum_test_task/features/tasks/presentation/cubit/tasks_cubit.dart';
 import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
 import 'package:space_scutum_test_task/features/tasks/presentation/widgets/task_tile.dart';
 
@@ -10,6 +13,8 @@ class TasksListScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      floatingActionButton:
+          FloatingActionButton(onPressed: context.read<TasksCubit>().addTask),
       body: Column(
         children: [
           SizedBox(
@@ -18,12 +23,18 @@ class TasksListScreen extends StatelessWidget {
           ),
           SizedBox(
             height: screenHeight * 0.7, // 70% of screen height
-            child: ListView.separated(
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return TaskTile();
+            child: BlocBuilder<TasksCubit, List<Task>>(
+              builder: (context, state) {
+                return ListView.separated(
+                  itemCount: state.length,
+                  itemBuilder: (context, index) {
+                    return TaskTile(
+                      task: state[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) => AppSpacers.v10px,
+                );
               },
-              separatorBuilder: (context, index) => AppSpacers.v10px,
             ),
           ),
         ],
