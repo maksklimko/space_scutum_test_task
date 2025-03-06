@@ -1,6 +1,6 @@
 part of 'tasks_bloc.dart';
 
-abstract class TasksState extends Equatable {
+sealed class TasksState extends Equatable {
   final bool isGrouped;
   final TaskCategory filterCategory;
 

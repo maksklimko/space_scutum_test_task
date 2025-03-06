@@ -4,11 +4,6 @@ abstract class TasksEvent {}
 
 class GetTasksEvent extends TasksEvent {}
 
-class AddTaskEvent extends TasksEvent {
-  final Task task;
-  AddTaskEvent(this.task);
-}
-
 class ToggleTaskCompletionEvent extends TasksEvent {
   final Task task;
   ToggleTaskCompletionEvent(this.task);

@@ -1,0 +1,67 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
+import 'package:space_scutum_test_task/features/tasks/domain/entities/task_category.dart';
+import 'package:space_scutum_test_task/features/tasks/domain/usecases/add_task_usecase.dart';
+
+part 'add_task_state.dart';
+
+class AddTaskCubit extends Cubit<AddTaskState> {
+  AddTaskCubit(this._addTaskUseCase) : super(AddTaskInitial());
+
+  final AddTaskUseCase _addTaskUseCase;
+
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
+  GlobalKey<FormState> get formKey => _formKey;
+  TextEditingController get titleController => _titleController;
+  TextEditingController get descriptionController => _descriptionController;
+
+  // Update title and description
+  void updateTitle(String title) {
+    emit(state.copyWith(title: title));
+  }
+
+  void updateDescription(String description) {
+    emit(state.copyWith(description: description));
+  }
+
+  // Validate form fields
+  bool validateForm() {
+    return _formKey.currentState?.validate() ?? false;
+  }
+
+  // Reset the form
+  void resetForm() {
+    _formKey.currentState?.reset();
+    _titleController.clear();
+    _descriptionController.clear();
+    emit(AddTaskInitial());
+  }
+
+  void selectCategory(TaskCategory category) {
+    emit(state.copyWith(category: category));
+  }
+
+  void addTask() {
+    _addTaskUseCase.call(
+      Task(
+        id: DateTime.now().millisecondsSinceEpoch,
+        title: state.title,
+        description: state.description,
+        isCompleted: false,
+        category: state.category,
+      ),
+    );
+  }
+
+  @override
+  Future<void> close() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    return super.close();
+  }
+}

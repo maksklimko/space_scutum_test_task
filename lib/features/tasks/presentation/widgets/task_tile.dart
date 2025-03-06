@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
-import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc.dart';
+import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc/tasks_bloc.dart';
 import 'package:space_scutum_test_task/shared/resources/app_colors.dart';
 
 class TaskTile extends StatelessWidget {

@@ -12,8 +12,8 @@ class Task {
     required this.id,
     required this.title,
     required this.description,
-    required this.isCompleted,
-    required this.category,
+    this.isCompleted = false,
+    this.category = TaskCategory.other,
   });
 
   Task copyWith({

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task_category.dart';
-import 'package:space_scutum_test_task/features/tasks/domain/usecases/add_task_usecase.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/delete_task_usecase.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/get_tasks_usecase.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/update_task_usecase.dart';
@@ -13,7 +12,6 @@ part 'tasks_state.dart';
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   // Usecases
   final GetTasksUseCase _getTasksUseCase;
-  final AddTaskUseCase _addTaskUseCase;
   final UpdateTaskUsecase _updateTaskUsecase;
   final DeleteTaskUsecase _deleteTaskUsecase;
 
@@ -22,12 +20,10 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   TasksBloc(
     this._getTasksUseCase,
-    this._addTaskUseCase,
     this._updateTaskUsecase,
     this._deleteTaskUsecase,
   ) : super(UngroupedTasksState()) {
     on<GetTasksEvent>(_onGetTasks);
-    on<AddTaskEvent>(_onAddTask);
     on<ToggleTaskCompletionEvent>(_onToggleTaskCompletion);
     on<DeleteTaskEvent>(_onDeleteTask);
     on<ToggleIsGrouped>(_onToggleIsGrouped);
@@ -39,11 +35,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     final tasks = await _getTasksUseCase.call();
     cachedTasks = tasks;
     _displayTasks(emit);
-  }
-
-  Future<void> _onAddTask(AddTaskEvent event, Emitter<TasksState> emit) async {
-    await _addTaskUseCase(event.task);
-    add(GetTasksEvent());
   }
 
   Future<void> _onToggleTaskCompletion(
