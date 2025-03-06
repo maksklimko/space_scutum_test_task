@@ -28,31 +28,72 @@ class TasksListScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: screenHeight * 0.3, // 30% of screen height
+            height: screenHeight * 0.2, // 20% of screen height
             child: Placeholder(),
           ),
-          SizedBox(
-            height: screenHeight * 0.7, // 70% of screen height
-            child: BlocBuilder<TasksBloc, TasksState>(
-              builder: (context, state) {
-                return switch (state) {
-                  TasksInitial() => Center(child: CircularProgressIndicator()),
-                  TasksLoaded(:final tasks) => ListView.separated(
-                      itemCount: tasks.length,
+          BlocBuilder<TasksBloc, TasksState>(
+            builder: (context, state) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: screenHeight * 0.15, // 15% of screen height
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ChoiceChip(
+                          label: Text('Group'),
+                          selected: state.isGrouped,
+                          onSelected: (value) {
+                            context.read<TasksBloc>().add(ToggleIsGrouped());
+                          },
+                        ),
+                        _getFilters(context, state),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.55, // 55% of screen height
+                    child: ListView.separated(
+                      itemCount: state.tasks.length,
                       itemBuilder: (context, index) {
                         return TaskTile(
-                          task: tasks[index],
+                          task: state.tasks[index],
                         );
                       },
                       separatorBuilder: (context, index) => AppSpacers.v10px,
                     ),
-                  _ => Center(child: Text("Unexpected state")),
-                };
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
+    );
+  }
+
+  _getFilters(BuildContext context, TasksState state) {
+    const List<(TaskCategory, String)> filters = <(TaskCategory, String)>[
+      (TaskCategory.all, 'All'),
+      (TaskCategory.work, 'Work'),
+      (TaskCategory.personal, 'Personal'),
+      (TaskCategory.other, 'Other'),
+    ];
+
+    return SegmentedButton(
+      segments: filters
+          .map<ButtonSegment<TaskCategory>>(((TaskCategory, String) filter) {
+        return ButtonSegment<TaskCategory>(
+          value: filter.$1,
+          label: Text(filter.$2),
+        );
+      }).toList(),
+      expandedInsets: EdgeInsets.zero,
+      selectedIcon: SizedBox.shrink(),
+      selected: {state.filterCategory},
+      onSelectionChanged: (category) {
+        context.read<TasksBloc>().add(SelectFilterCategory(category.first));
+      },
     );
   }
 }

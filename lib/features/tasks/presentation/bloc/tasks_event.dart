@@ -18,3 +18,12 @@ class DeleteTaskEvent extends TasksEvent {
   final int id;
   DeleteTaskEvent(this.id);
 }
+
+class ToggleIsGrouped extends TasksEvent {
+  ToggleIsGrouped();
+}
+
+class SelectFilterCategory extends TasksEvent {
+  final TaskCategory category;
+  SelectFilterCategory(this.category);
+}

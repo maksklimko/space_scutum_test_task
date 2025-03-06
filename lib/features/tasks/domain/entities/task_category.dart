@@ -1,6 +1,7 @@
 import 'package:space_scutum_test_task/features/tasks/data/dto/task_category_dto.dart';
 
 enum TaskCategory {
+  all,
   work,
   personal,
   other;
