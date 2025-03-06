@@ -10,10 +10,14 @@ part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
+  // Usecases
   final GetTasksUseCase _getTasksUseCase;
   final AddTaskUseCase _addTaskUseCase;
   final UpdateTaskUsecase _updateTaskUsecase;
   final DeleteTaskUsecase _deleteTaskUsecase;
+
+  // Cached tasks for optimized filtering
+  List<Task> cachedTasks = [];
 
   TasksBloc(
     this._getTasksUseCase,
@@ -31,7 +35,28 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   Future<void> _onGetTasks(
       GetTasksEvent event, Emitter<TasksState> emit) async {
-    final tasks = await _getTasksUseCase.call();
+    // final tasks = await _getTasksUseCase.call();
+    final tasks = [
+      Task(
+          id: 1,
+          title: 'title',
+          description: 'description',
+          isCompleted: false,
+          category: TaskCategory.work),
+      Task(
+          id: 2,
+          title: 'title',
+          description: 'description',
+          isCompleted: false,
+          category: TaskCategory.personal),
+      Task(
+          id: 3,
+          title: 'title',
+          description: 'description',
+          isCompleted: false,
+          category: TaskCategory.other),
+    ];
+    cachedTasks = tasks;
     emit(state.copyWith(tasks: tasks));
   }
 
@@ -61,6 +86,17 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   Future<void> _onSelectFilterCategory(
       SelectFilterCategory event, Emitter<TasksState> emit) async {
-    emit(state.copyWith(filterCategory: event.category));
+    if (event.category == TaskCategory.all) {
+      emit(state.copyWith(filterCategory: event.category, tasks: cachedTasks));
+    } else {
+      final filteredTasks =
+          cachedTasks.where((e) => e.category == event.category).toList();
+      emit(
+        state.copyWith(
+          filterCategory: event.category,
+          tasks: filteredTasks,
+        ),
+      );
+    }
   }
 }
