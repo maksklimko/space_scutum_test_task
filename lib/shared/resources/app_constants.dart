@@ -12,4 +12,12 @@ class AppConstants {
         (TaskCategory.personal, 'Personal'),
         (TaskCategory.other, 'Other'),
       ];
+
+  static const String weatherApiBaseUrl =
+      "https://api.openweathermap.org/data/2.5/";
+  static const String weatherIconsUrl = "https://openweathermap.org/img/wn/";
+
+  // Demo coordinates(Lviv, Ukraine)
+  static const demoLatitude = 49.842957;
+  static const demoLongitude = 24.031111;
 }

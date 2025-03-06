@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task_category.dart';
 import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc/tasks_bloc.dart';
+import 'package:space_scutum_test_task/features/weather/presentation/widgets/weather_widget.dart';
 import 'package:space_scutum_test_task/shared/resources/app_colors.dart';
 import 'package:space_scutum_test_task/shared/resources/app_constants.dart';
 import 'package:space_scutum_test_task/shared/resources/app_routes.dart';
@@ -24,7 +25,7 @@ class TasksListScreen extends StatelessWidget {
         children: [
           SizedBox(
             height: screenHeight * 0.2, // 20% of screen height
-            child: Placeholder(),
+            child: WeatherWidget(),
           ),
           BlocBuilder<TasksBloc, TasksState>(
             builder: (context, state) {
