@@ -4,6 +4,7 @@ import 'package:space_scutum_test_task/features/weather/presentation/bloc/weathe
 import 'package:space_scutum_test_task/shared/resources/app_colors.dart';
 import 'package:space_scutum_test_task/shared/resources/app_constants.dart';
 import 'package:space_scutum_test_task/shared/resources/app_paddings.dart';
+import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 
 class WeatherWidget extends StatelessWidget {
   const WeatherWidget({super.key});
@@ -37,10 +38,10 @@ class WeatherWidget extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        "Temperature: ${state.weather.mainData.temp.round().toString()} °F",
+                        "${AppStrings.temperature}: ${state.weather.mainData.temp.round().toString()} °F",
                       ),
                       Text(
-                        "Wind speed: ${state.weather.windData.speed.toString()} m/s",
+                        "${AppStrings.windSpeed}: ${state.weather.windData.speed.toString()} m/s",
                       ),
                     ],
                   ),

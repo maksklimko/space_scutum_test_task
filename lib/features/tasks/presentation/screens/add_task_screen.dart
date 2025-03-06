@@ -8,6 +8,7 @@ import 'package:space_scutum_test_task/features/tasks/presentation/bloc/add_task
 import 'package:space_scutum_test_task/shared/resources/app_constants.dart';
 import 'package:space_scutum_test_task/shared/resources/app_paddings.dart';
 import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
+import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 import 'package:space_scutum_test_task/shared/utils/injector.dart';
 
 class AddTaskScreen extends StatelessWidget {
@@ -34,12 +35,12 @@ class AddTaskScreen extends StatelessWidget {
                         cubit.updateTitle(value);
                       },
                       decoration: InputDecoration(
-                        labelText: 'Task Title',
+                        labelText: AppStrings.taskTitile,
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a title';
+                          return AppStrings.pleaseEnterTitle;
                         }
                         return null;
                       },
@@ -51,12 +52,12 @@ class AddTaskScreen extends StatelessWidget {
                         cubit.updateDescription(value);
                       },
                       decoration: InputDecoration(
-                        labelText: 'Task Description',
+                        labelText: AppStrings.taskDescription,
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a description';
+                          return AppStrings.pleaseEnterDescription;
                         }
                         return null;
                       },
@@ -87,7 +88,7 @@ class AddTaskScreen extends StatelessWidget {
                           context.pop();
                         }
                       },
-                      child: Text('Add Task'),
+                      child: Text(AppStrings.addTask),
                     ),
                   ],
                 ),

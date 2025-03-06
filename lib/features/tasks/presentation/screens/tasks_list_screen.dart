@@ -9,6 +9,7 @@ import 'package:space_scutum_test_task/shared/resources/app_constants.dart';
 import 'package:space_scutum_test_task/shared/resources/app_routes.dart';
 import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
 import 'package:space_scutum_test_task/features/tasks/presentation/widgets/task_tile.dart';
+import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 
 class TasksListScreen extends StatelessWidget {
   const TasksListScreen({super.key});
@@ -37,7 +38,7 @@ class TasksListScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ChoiceChip(
-                          label: Text('Group'),
+                          label: Text(AppStrings.group),
                           selected: state.isGrouped,
                           onSelected: (value) {
                             context.read<TasksBloc>().add(ToggleIsGrouped());
