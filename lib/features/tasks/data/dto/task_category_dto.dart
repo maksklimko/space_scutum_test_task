@@ -6,10 +6,12 @@ part 'task_category_dto.g.dart';
 @HiveType(typeId: 1)
 enum TaskCategoryDTO {
   @HiveField(0)
-  work,
+  all,
   @HiveField(1)
-  personal,
+  work,
   @HiveField(2)
+  personal,
+  @HiveField(3)
   other;
 
   TaskCategory toDomain() {

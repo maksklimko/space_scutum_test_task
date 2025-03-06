@@ -14,27 +14,32 @@ class TaskCategoryDTOAdapter extends TypeAdapter<TaskCategoryDTO> {
   TaskCategoryDTO read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return TaskCategoryDTO.work;
+        return TaskCategoryDTO.all;
       case 1:
-        return TaskCategoryDTO.personal;
+        return TaskCategoryDTO.work;
       case 2:
+        return TaskCategoryDTO.personal;
+      case 3:
         return TaskCategoryDTO.other;
       default:
-        return TaskCategoryDTO.work;
+        return TaskCategoryDTO.all;
     }
   }
 
   @override
   void write(BinaryWriter writer, TaskCategoryDTO obj) {
     switch (obj) {
-      case TaskCategoryDTO.work:
+      case TaskCategoryDTO.all:
         writer.writeByte(0);
         break;
-      case TaskCategoryDTO.personal:
+      case TaskCategoryDTO.work:
         writer.writeByte(1);
         break;
-      case TaskCategoryDTO.other:
+      case TaskCategoryDTO.personal:
         writer.writeByte(2);
+        break;
+      case TaskCategoryDTO.other:
+        writer.writeByte(3);
         break;
     }
   }

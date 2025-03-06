@@ -5,6 +5,7 @@ import 'package:space_scutum_test_task/features/tasks/domain/usecases/add_task_u
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/delete_task_usecase.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/get_tasks_usecase.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/update_task_usecase.dart';
+import 'package:equatable/equatable.dart';
 
 part 'tasks_event.dart';
 part 'tasks_state.dart';
@@ -24,7 +25,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     this._addTaskUseCase,
     this._updateTaskUsecase,
     this._deleteTaskUsecase,
-  ) : super(TasksState()) {
+  ) : super(UngroupedTasksState()) {
     on<GetTasksEvent>(_onGetTasks);
     on<AddTaskEvent>(_onAddTask);
     on<ToggleTaskCompletionEvent>(_onToggleTaskCompletion);
@@ -35,29 +36,9 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   Future<void> _onGetTasks(
       GetTasksEvent event, Emitter<TasksState> emit) async {
-    // final tasks = await _getTasksUseCase.call();
-    final tasks = [
-      Task(
-          id: 1,
-          title: 'title',
-          description: 'description',
-          isCompleted: false,
-          category: TaskCategory.work),
-      Task(
-          id: 2,
-          title: 'title',
-          description: 'description',
-          isCompleted: false,
-          category: TaskCategory.personal),
-      Task(
-          id: 3,
-          title: 'title',
-          description: 'description',
-          isCompleted: false,
-          category: TaskCategory.other),
-    ];
+    final tasks = await _getTasksUseCase.call();
     cachedTasks = tasks;
-    emit(state.copyWith(tasks: tasks));
+    _displayTasks(emit);
   }
 
   Future<void> _onAddTask(AddTaskEvent event, Emitter<TasksState> emit) async {
@@ -82,21 +63,50 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   Future<void> _onToggleIsGrouped(
       ToggleIsGrouped event, Emitter<TasksState> emit) async {
     emit(state.copyWith(isGrouped: !state.isGrouped));
+    _displayTasks(emit);
   }
 
   Future<void> _onSelectFilterCategory(
       SelectFilterCategory event, Emitter<TasksState> emit) async {
-    if (event.category == TaskCategory.all) {
-      emit(state.copyWith(filterCategory: event.category, tasks: cachedTasks));
-    } else {
-      final filteredTasks =
-          cachedTasks.where((e) => e.category == event.category).toList();
-      emit(
-        state.copyWith(
-          filterCategory: event.category,
-          tasks: filteredTasks,
-        ),
-      );
+    emit(state.copyWith(filterCategory: event.category));
+    _displayTasks(emit);
+  }
+
+  List<Task> _getFilteredTasks(List<Task> tasks, TaskCategory category) {
+    final t = cachedTasks.where((e) {
+      return category == TaskCategory.all || e.category == category;
+    }).toList();
+    return t;
+  }
+
+  Map<TaskCategory, List<Task>> _groupTasks(List<Task> tasks) {
+    final groupedTasks = TaskCategory.values.sublist(1).asMap().map((index, e) {
+      return MapEntry(e, _getFilteredTasks(tasks, e));
+    });
+    if (state.filterCategory != TaskCategory.all) {
+      return {state.filterCategory: groupedTasks[state.filterCategory] ?? []};
     }
+    return groupedTasks;
+  }
+
+  void _displayTasks(Emitter<TasksState> emit) {
+    final currentState = state;
+
+    final newState = switch (currentState.isGrouped) {
+      true => GroupedTasksState(
+          tasks: _groupTasks(
+            _getFilteredTasks(cachedTasks, state.filterCategory),
+          ),
+        ),
+      false => UngroupedTasksState(
+          tasks: _getFilteredTasks(cachedTasks, state.filterCategory)),
+    };
+
+    emit(
+      newState.copyWith(
+        isGrouped: currentState.isGrouped,
+        filterCategory: currentState.filterCategory,
+      ),
+    );
   }
 }
