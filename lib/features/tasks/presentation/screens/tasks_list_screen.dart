@@ -27,7 +27,7 @@ class TasksListScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: screenHeight * 0.2, // 20% of screen height
+            height: screenHeight * 0.3, // 30% of screen height
             child: WeatherWidget(),
           ),
           BlocBuilder<TasksBloc, TasksState>(
@@ -68,7 +68,7 @@ class TasksListScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: screenHeight * 0.65, // 65% of screen height
+                    height: screenHeight * 0.55, // 55% of screen height
                     child: state.map(
                       ungrouped: (state) => _buildUngroupedTasks(state),
                       grouped: (state) => _buildGroupedTasks(state),
