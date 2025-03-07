@@ -5,6 +5,7 @@ import 'package:space_scutum_test_task/features/tasks/domain/entities/task_categ
 import 'package:space_scutum_test_task/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/usecases/add_task_usecase.dart';
 import 'package:space_scutum_test_task/features/tasks/presentation/bloc/add_task_cubit/add_task_cubit.dart';
+import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc/tasks_bloc.dart';
 import 'package:space_scutum_test_task/shared/resources/app_constants.dart';
 import 'package:space_scutum_test_task/shared/resources/app_paddings.dart';
 import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
@@ -84,10 +85,13 @@ class AddTaskScreen extends StatelessWidget {
                     ),
                     AppSpacers.v10px,
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (cubit.validateForm()) {
-                          cubit.addTask();
-                          context.pop();
+                          await cubit.addTask();
+                          if (context.mounted) {
+                            context.read<TasksBloc>().add(GetTasksEvent());
+                            context.pop();
+                          }
                         }
                       },
                       child: Text(AppStrings.addTask),

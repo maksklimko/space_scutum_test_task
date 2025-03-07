@@ -56,8 +56,8 @@ class AddTaskCubit extends Cubit<AddTaskState> {
   }
 
   /// Adds a new task to the repository
-  void addTask() {
-    _addTaskUseCase.call(
+  void addTask() async {
+    await _addTaskUseCase.call(
       Task(
         id: DateTime.now().millisecondsSinceEpoch,
         title: state.title,
