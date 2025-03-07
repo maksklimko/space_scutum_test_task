@@ -21,9 +21,11 @@ class TasksListScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        context.pushNamed(AppRoutes.addTask);
-      }),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            context.pushNamed(AppRoutes.addTask);
+          }),
       body: Column(
         children: [
           SizedBox(
