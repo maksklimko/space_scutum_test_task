@@ -1,7 +1,11 @@
 part of 'tasks_bloc.dart';
 
+/// Sealed class for all task-related states in TasksBloc
 sealed class TasksState extends Equatable {
+  /// Whether tasks are grouped by category
   final bool isGrouped;
+
+  /// The current filter category
   final TaskCategory filterCategory;
 
   const TasksState({
@@ -9,11 +13,13 @@ sealed class TasksState extends Equatable {
     this.filterCategory = TaskCategory.all,
   });
 
+  /// Creates a new state with the given properties
   TasksState copyWith({
     bool? isGrouped,
     TaskCategory? filterCategory,
   });
 
+  /// Maps the current state to a new type
   T map<T>({
     required T Function(UngroupedTasksState state) ungrouped,
     required T Function(GroupedTasksState state) grouped,
@@ -26,12 +32,14 @@ sealed class TasksState extends Equatable {
     throw Exception("Unhandled state: $this");
   }
 
-  // Ensures proper equality check
+  /// Ensures proper equality check
   @override
   List<Object?> get props => [isGrouped, filterCategory];
 }
 
+/// State for ungrouped tasks
 class UngroupedTasksState extends TasksState {
+  /// The list of tasks
   final List<Task> tasks;
 
   const UngroupedTasksState({
@@ -58,7 +66,9 @@ class UngroupedTasksState extends TasksState {
   List<Object?> get props => super.props + [tasks];
 }
 
+/// State for grouped tasks
 class GroupedTasksState extends TasksState {
+  /// The map of tasks grouped by category
   final Map<TaskCategory, List<Task>> tasks;
 
   const GroupedTasksState({

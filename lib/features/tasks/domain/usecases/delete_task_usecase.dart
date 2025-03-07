@@ -1,5 +1,6 @@
 import 'package:space_scutum_test_task/features/tasks/domain/repositories/tasks_repository.dart';
 
+/// Usecase for deleting a task by [id]
 class DeleteTaskUsecase {
   final TasksRepository repository;
 

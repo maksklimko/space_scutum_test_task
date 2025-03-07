@@ -17,10 +17,14 @@ class WeatherConditionDTO {
     required this.icon,
   });
 
+  /// Converts a JSON object to a DTO
   factory WeatherConditionDTO.fromJson(Map<String, dynamic> json) =>
       _$WeatherConditionDTOFromJson(json);
+
+  /// Converts a DTO to a JSON object
   Map<String, dynamic> toJson() => _$WeatherConditionDTOToJson(this);
 
+  /// Converts a DTO to a domain entity
   WeatherCondition toDomain() {
     return WeatherCondition(
       id: id,
@@ -30,6 +34,7 @@ class WeatherConditionDTO {
     );
   }
 
+  /// Converts a domain entity to a DTO
   static WeatherConditionDTO fromDomain(WeatherCondition condition) {
     return WeatherConditionDTO(
       id: condition.id,

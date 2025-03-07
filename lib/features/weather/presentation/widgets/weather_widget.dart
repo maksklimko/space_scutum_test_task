@@ -6,6 +6,7 @@ import 'package:space_scutum_test_task/shared/resources/app_constants.dart';
 import 'package:space_scutum_test_task/shared/resources/app_paddings.dart';
 import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 
+/// Widget that displays weather information
 class WeatherWidget extends StatelessWidget {
   const WeatherWidget({super.key});
 

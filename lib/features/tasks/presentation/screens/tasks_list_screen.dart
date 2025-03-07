@@ -11,7 +11,9 @@ import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
 import 'package:space_scutum_test_task/features/tasks/presentation/widgets/task_tile.dart';
 import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 
+/// Screen for displaying a list of tasks
 class TasksListScreen extends StatelessWidget {
+  /// Constructor for TasksListScreen
   const TasksListScreen({super.key});
 
   @override

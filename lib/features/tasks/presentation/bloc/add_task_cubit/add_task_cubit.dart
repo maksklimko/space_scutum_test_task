@@ -7,15 +7,23 @@ import 'package:space_scutum_test_task/features/tasks/domain/usecases/add_task_u
 
 part 'add_task_state.dart';
 
+/// Cubit for adding a new task
 class AddTaskCubit extends Cubit<AddTaskState> {
   AddTaskCubit(this._addTaskUseCase) : super(AddTaskInitial());
 
+  /// Usecase for adding a new task
   final AddTaskUseCase _addTaskUseCase;
 
+  /// Form key for the add task form
   final _formKey = GlobalKey<FormState>();
+
+  /// Title controller for the add task form
   final _titleController = TextEditingController();
+
+  /// Description controller for the add task form
   final _descriptionController = TextEditingController();
 
+  /// Getters
   GlobalKey<FormState> get formKey => _formKey;
   TextEditingController get titleController => _titleController;
   TextEditingController get descriptionController => _descriptionController;
@@ -42,10 +50,12 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     emit(AddTaskInitial());
   }
 
+  /// Selects a category for the task
   void selectCategory(TaskCategory category) {
     emit(state.copyWith(category: category));
   }
 
+  /// Adds a new task to the repository
   void addTask() {
     _addTaskUseCase.call(
       Task(
@@ -58,6 +68,7 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     );
   }
 
+  /// Disposes of the controllers
   @override
   Future<void> close() {
     _titleController.dispose();

@@ -3,6 +3,8 @@ import 'package:space_scutum_test_task/features/tasks/data/dto/task_category_dto
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
 part 'task_dto.g.dart';
 
+/// Data Transfer Object for Task entity
+/// Used for serialization/deserialization with Hive storage
 @HiveType(typeId: 0)
 class TaskDTO {
   @HiveField(0)
@@ -24,6 +26,7 @@ class TaskDTO {
     required this.category,
   });
 
+  /// Converts a DTO to a domain entity
   Task toDomain() {
     return Task(
       id: id,
@@ -34,6 +37,7 @@ class TaskDTO {
     );
   }
 
+  /// Creates a DTO from a domain entity
   factory TaskDTO.fromDomain(Task task) {
     return TaskDTO(
       id: task.id,

@@ -1,3 +1,5 @@
+/// Utility class for application-wide string resources
+/// Private constructor prevents instantiation
 class AppStrings {
   AppStrings._();
 

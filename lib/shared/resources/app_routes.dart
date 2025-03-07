@@ -1,3 +1,5 @@
+/// Utility class for application-wide routes
+/// Private constructor prevents instantiation
 class AppRoutes {
   AppRoutes._();
 

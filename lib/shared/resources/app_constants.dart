@@ -1,9 +1,13 @@
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task_category.dart';
 import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 
+/// Utility class for application-wide constants
+/// Private constructor prevents instantiation
 class AppConstants {
   AppConstants._();
 
+  /// Returns a list of task categories with their display names
+  /// [includeAll - Whether to include the "All" category option
   static List<(TaskCategory, String)> getCategoriesOptions({
     bool includeAll = true,
   }) =>

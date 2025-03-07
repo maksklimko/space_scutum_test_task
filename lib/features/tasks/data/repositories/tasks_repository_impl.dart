@@ -2,6 +2,8 @@ import 'package:space_scutum_test_task/features/tasks/data/sources/tasks_hive_da
 import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart';
 import 'package:space_scutum_test_task/features/tasks/domain/repositories/tasks_repository.dart';
 
+/// Implementation of [TasksRepository] that uses Hive for local storage
+/// Handles conversion between domain entities and DTOs
 class TasksRepositoryImpl implements TasksRepository {
   final TasksHiveDataSource hiveDataSource;
 

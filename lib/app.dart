@@ -11,6 +11,7 @@ import 'package:space_scutum_test_task/features/weather/presentation/bloc/weathe
 import 'package:space_scutum_test_task/shared/utils/injector.dart';
 import 'package:space_scutum_test_task/shared/utils/router.dart';
 
+/// Root widget of the application that sets up the BLoC providers and routing
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -18,20 +19,22 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // Tasks provider - handles task list state management
         BlocProvider(
           create: (ctx) => TasksBloc(
             GetTasksUseCase(getIt<TasksRepository>()),
             UpdateTaskUsecase(getIt<TasksRepository>()),
             DeleteTaskUsecase(getIt<TasksRepository>()),
-          )..add(GetTasksEvent()),
+          )..add(GetTasksEvent()), // Fetch tasks on initialization
           child: MaterialApp.router(
             routerConfig: router,
           ),
         ),
+        // Weather provider - handles weather data state management
         BlocProvider(
           create: (ctx) => WeatherCubit(
             GetWeatherUseCase(getIt<WeatherRepository>()),
-          )..getWeatherData(),
+          )..getWeatherData(), // Fetch weather data on initialization
         ),
       ],
       child: MaterialApp.router(

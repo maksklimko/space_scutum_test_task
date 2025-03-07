@@ -4,9 +4,12 @@ import 'package:space_scutum_test_task/features/tasks/domain/entities/task_categ
 import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc/tasks_bloc.dart';
 import 'package:space_scutum_test_task/shared/resources/app_colors.dart';
 
+/// Widget that displays a group of category filter buttons
+/// allowing users to filter tasks by category
 class CategoryFilterGroup extends StatelessWidget {
   const CategoryFilterGroup({super.key, this.selectedCategory});
 
+  /// Selected category
   final TaskCategory? selectedCategory;
 
   @override

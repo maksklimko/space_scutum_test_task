@@ -9,6 +9,7 @@ import 'package:equatable/equatable.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
+/// Bloc for managing tasks
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   // Usecases
   final GetTasksUseCase _getTasksUseCase;
@@ -30,6 +31,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     on<SelectFilterCategory>(_onSelectFilterCategory);
   }
 
+  /// Fetches tasks from the repository and updates the state
   Future<void> _onGetTasks(
       GetTasksEvent event, Emitter<TasksState> emit) async {
     final tasks = await _getTasksUseCase.call();
@@ -37,6 +39,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     _displayTasks(emit);
   }
 
+  /// Toggles the completion status of a task
   Future<void> _onToggleTaskCompletion(
       ToggleTaskCompletionEvent event, Emitter<TasksState> emit) async {
     await _updateTaskUsecase.call(
@@ -45,24 +48,28 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     add(GetTasksEvent());
   }
 
+  /// Deletes a task from the repository and updates the state
   Future<void> _onDeleteTask(
       DeleteTaskEvent event, Emitter<TasksState> emit) async {
     await _deleteTaskUsecase.call(event.id);
     add(GetTasksEvent());
   }
 
+  /// Toggles the grouping status of tasks
   Future<void> _onToggleIsGrouped(
       ToggleIsGrouped event, Emitter<TasksState> emit) async {
     emit(state.copyWith(isGrouped: !state.isGrouped));
     _displayTasks(emit);
   }
 
+  /// Selects a filter category and updates the state
   Future<void> _onSelectFilterCategory(
       SelectFilterCategory event, Emitter<TasksState> emit) async {
     emit(state.copyWith(filterCategory: event.category));
     _displayTasks(emit);
   }
 
+  /// Gets filtered tasks based on the selected category
   List<Task> _getFilteredTasks(List<Task> tasks, TaskCategory category) {
     final t = cachedTasks.where((e) {
       return category == TaskCategory.all || e.category == category;
@@ -70,6 +77,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     return t;
   }
 
+  /// Groups tasks based on the selected category
   Map<TaskCategory, List<Task>> _groupTasks(List<Task> tasks) {
     final groupedTasks = TaskCategory.values.sublist(1).asMap().map((index, e) {
       return MapEntry(e, _getFilteredTasks(tasks, e));
@@ -80,6 +88,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     return groupedTasks;
   }
 
+  /// Displays tasks based on the current state
   void _displayTasks(Emitter<TasksState> emit) {
     final currentState = state;
 

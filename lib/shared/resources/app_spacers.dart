@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Utility class for application-wide spacing values
+/// Private constructor prevents instantiation
 class AppSpacers {
   AppSpacers._();
 

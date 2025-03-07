@@ -3,6 +3,7 @@ import 'package:space_scutum_test_task/features/tasks/domain/entities/task_categ
 
 part 'task_category_dto.g.dart';
 
+/// DTO enum for task categories with Hive serialization
 @HiveType(typeId: 1)
 enum TaskCategoryDTO {
   @HiveField(0)
@@ -14,10 +15,12 @@ enum TaskCategoryDTO {
   @HiveField(3)
   other;
 
+  /// Converts the DTO to an enum
   TaskCategory toDomain() {
     return TaskCategory.values[index];
   }
 
+  /// Creates a new DTO from an enum
   factory TaskCategoryDTO.fromDomain(TaskCategory category) {
     return values[category.index];
   }

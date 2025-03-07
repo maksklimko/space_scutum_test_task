@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Utility class for application-wide padding values
+/// Private constructor prevents instantiation
 class AppPaddings {
   AppPaddings._();
 

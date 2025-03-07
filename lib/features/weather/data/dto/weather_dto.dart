@@ -23,6 +23,7 @@ class WeatherDTO {
     required this.windData,
   });
 
+  /// Converts the DTO to a domain entity
   Weather toDomain() {
     return Weather(
       weatherConditions: weatherConditions.map((e) => e.toDomain()).toList(),
@@ -31,6 +32,7 @@ class WeatherDTO {
     );
   }
 
+  /// Converts a domain entity to a DTO
   factory WeatherDTO.fromDomain(Weather weather) {
     return WeatherDTO(
       weatherConditions: weather.weatherConditions
@@ -41,7 +43,10 @@ class WeatherDTO {
     );
   }
 
+  /// Converts a JSON object to a DTO
   factory WeatherDTO.fromJson(Map<String, dynamic> json) =>
       _$WeatherDTOFromJson(json);
+
+  /// Converts a DTO to a JSON object
   Map<String, dynamic> toJson() => _$WeatherDTOToJson(this);
 }

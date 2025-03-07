@@ -30,6 +30,7 @@ class WeatherMainDTO {
     this.groundLevel,
   });
 
+  /// Converts the DTO to a domain entity
   WeatherMainData toDomain() {
     return WeatherMainData(
       temp: temp,
@@ -43,6 +44,7 @@ class WeatherMainDTO {
     );
   }
 
+  /// Converts a domain entity to a DTO
   factory WeatherMainDTO.fromDomain(WeatherMainData weatherMain) {
     return WeatherMainDTO(
       temp: weatherMain.temp,
@@ -56,7 +58,10 @@ class WeatherMainDTO {
     );
   }
 
+  /// Converts a JSON object to a DTO
   factory WeatherMainDTO.fromJson(Map<String, dynamic> json) =>
       _$WeatherMainDTOFromJson(json);
+
+  /// Converts a DTO to a JSON object
   Map<String, dynamic> toJson() => _$WeatherMainDTOToJson(this);
 }

@@ -11,6 +11,8 @@ import 'package:space_scutum_test_task/shared/resources/app_spacers.dart';
 import 'package:space_scutum_test_task/shared/resources/app_strings.dart';
 import 'package:space_scutum_test_task/shared/utils/injector.dart';
 
+/// Screen for adding new tasks to the application
+/// Provides a form with title and description fields
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
 

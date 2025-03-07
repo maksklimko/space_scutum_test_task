@@ -4,7 +4,9 @@ import 'package:space_scutum_test_task/features/tasks/domain/entities/task.dart'
 import 'package:space_scutum_test_task/features/tasks/presentation/bloc/tasks_bloc/tasks_bloc.dart';
 import 'package:space_scutum_test_task/shared/resources/app_colors.dart';
 
+/// Widget for displaying a task tile
 class TaskTile extends StatelessWidget {
+  /// Constructor for TaskTile
   const TaskTile({
     super.key,
     required this.task,

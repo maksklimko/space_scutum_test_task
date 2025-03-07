@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Utility class that defines the application's color palette
+/// Private constructor prevents instantiation
 class AppColors {
   AppColors._();
 
