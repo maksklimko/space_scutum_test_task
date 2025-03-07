@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:space_scutum_test_task/app.dart';
+import 'package:space_scutum_test_task/shared/utils/injector.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+/// Entry point of the application.
+/// Initializes necessary services and starts the app.
+void main() async {
+  // Set up dependency injection using GetIt service locator
+  setupInjector();
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  // Launch the root widget of the application
+  runApp(const App());
 }
