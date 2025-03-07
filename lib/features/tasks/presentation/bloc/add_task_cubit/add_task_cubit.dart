@@ -46,8 +46,8 @@ class AddTaskCubit extends Cubit<AddTaskState> {
     emit(state.copyWith(category: category));
   }
 
-  void addTask() {
-    _addTaskUseCase.call(
+  Future addTask() async {
+    await _addTaskUseCase.call(
       Task(
         id: DateTime.now().millisecondsSinceEpoch,
         title: state.title,
